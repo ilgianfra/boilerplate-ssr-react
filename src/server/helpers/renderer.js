@@ -1,7 +1,7 @@
 import React from 'react';
 import { ApolloProvider, getDataFromTree } from 'react-apollo';
 import { renderToNodeStream } from 'react-dom/server';
-import { ChunkExtractor, ChunkExtractorManager } from '@loadable/server';
+import { ChunkExtractor } from '@loadable/server';
 import path from 'path';
 import { StaticRouter } from 'react-router-dom';
 import { renderRoutes } from 'react-router-config';
@@ -15,22 +15,21 @@ const statsFile = path.resolve('./public/loadable-stats.json');
 const renderer = async (req, context) => {
 
   const extractor = new ChunkExtractor({ statsFile, entrypoints: ['client'] });
-  const scriptTags = extractor.getScriptTags();
-  console.log('scriptTags', scriptTags);
+
   const App = (
-    <ChunkExtractorManager extractor={extractor}>
-      <ApolloProvider client={apolloClient}>
-        <StaticRouter location={req.path} context={context}>
-          <div>{renderRoutes(routes)}</div>
-        </StaticRouter>
-      </ApolloProvider>
-    </ChunkExtractorManager>
+    <ApolloProvider client={apolloClient}>
+      <StaticRouter location={req.path} context={context}>
+        <div>{renderRoutes(routes)}</div>
+      </StaticRouter>
+    </ApolloProvider>
   );
 
   // Styled components
   const sheet = new ServerStyleSheet();
   let jsx = sheet.collectStyles(App);
   jsx = extractor.collectChunks(App);
+  const scriptTags = extractor.getScriptTags();
+  console.log('scriptTags', scriptTags);
 
   // Apollo
   await getDataFromTree(jsx);

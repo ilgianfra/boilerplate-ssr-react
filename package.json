@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/server/index.js",
   "scripts": {
-    "serve": "NODE_ENV=development nodemon --exec babel-node --inspect src/server/index.js",
+    "serve": "NODE_ENV=development nodemon --exec babel-node --ignore '**/*/routes.js' --inspect src/server/index.js",
     "test": "jest --watch",
     "dev:ssr": "webpack --config webpack/webpack.dev.js --watch",
     "start": "npm-run-all --parallel serve dev:ssr",
@@ -59,6 +59,7 @@
     "@loadable/webpack-plugin": "^5.0.2",
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.5",
+    "babel-plugin-dynamic-import-webpack": "^1.1.0",
     "babel-plugin-styled-components": "^1.10.0",
     "dotenv": "^6.2.0",
     "ejs": "^2.6.1",

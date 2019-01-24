@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/server/index.js",
   "scripts": {
-    "serve": "NODE_ENV=development nodemon --exec babel-node --ignore '**/*/routes.js' --inspect src/server/index.js",
+    "serve": "NODE_ENV=development nodemon --exec babel-node --plugins dynamic-import-webpack --inspect src/server/index.js",
     "test": "jest --watch",
     "dev:ssr": "webpack --config webpack/webpack.dev.js --watch",
     "start": "npm-run-all --parallel serve dev:ssr",

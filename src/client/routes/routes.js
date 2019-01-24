@@ -1,19 +1,20 @@
 import loadable from '@loadable/component';
 import App from '../components/App';
-// import Home from '../components/Home';
-// import About from '../components/About';
+
+const Home = loadable(() => import(/* webpackChunkName: "HomeComponent" */ '../components/Home'));
+const About = loadable(() => import('../components/About'));
 
 export default [
   {
     ...App,
     routes: [
       {
-        component: loadable(() => import('../components/Home')),
+        component: Home,
         path: '/',
         exact: true
       },
       {
-        component: loadable(() => import('../components/About')),
+        component: About,
         path: '/about'
       }
     ]

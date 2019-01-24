@@ -2,7 +2,6 @@ import express from 'express';
 import dotenv from 'dotenv';
 import config from './config';
 import renderer from './helpers/renderer';
-import html from './helpers/html';
 
 // TODO added to avoid the server to be called twice, it needs to be removed
 function ignoreFavicon(req, res, next) {
@@ -17,7 +16,6 @@ dotenv.config();
 const app = express();
 
 app.use(express.static('public')); // static middlewere to serve public directory
-app.set('view engine', 'ejs');
 app.set('views', 'src/');
 app.use(ignoreFavicon);
 
@@ -44,7 +42,7 @@ app.get('*', async (req, res) => {
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-  <title>NBCU 2.0</title>
+  <title>React boilerplate SSR</title>
 </head>
 <body>
   <div id="root">
@@ -57,13 +55,13 @@ app.get('*', async (req, res) => {
   stream.on('end', () => {
     res.end(`
     </div>
-  ${scriptTags}
   <script type="text/javascript">
     window.__APOLLO_STATE__ = ${apolloClient};
   </script>
+  ${scriptTags}
 </body>
+</html>
     `);
-
   });
 
 });
